@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>Cookie Grab</title>
+        <link rel="stylesheet" href="styles.css"/>
+    </head>
+    <body>
+        <table id="outer" class="container">
+            <tr id="topRow" class="contentRow">
+                <td class="buffer"></td>
+                <td class="card">
+                    <img id="player2Goal1" src="images/goal-mystery.png" />
+                </td>
+                <td class="card">
+                    <img id="player2Goal2" src="images/goal-mystery.png" />
+                </td>
+                <td class="buffer"></td>
+            </tr>
+            <tr class="bufferRow"></tr>
+            <tr id="midTopRow" class="contentRow">
+                <td>
+                    <div class="card">
+                        <img id="player1Goal1" src="images/goal-mystery.png" />
+                    </div>
+                    <span class="midBuffer"></span>
+                </td>
+                <td class="card" id="available1" onclick="drawCard(0)"></td>
+                <td class="card" id="available2" onclick="drawCard(1)"></td>
+                <td>
+                    <span class="midBuffer"></span>
+                    <div class="card">
+                        <img id="player3Goal1" src="images/goal-mystery.png" />
+                    </div>
+                </td>
+            </tr>
+            <tr id="midBottomRow" class="contentRow">
+                <td>
+                    <div class="card">
+                        <img id="player1Goal2" src="images/goal-mystery.png" />
+                    </div>
+                    <span class="midBuffer"></span>
+                </td>
+                <td class="card" id="available3" onclick="drawCard(2)"></td>
+                <td class="card" id="available4" onclick="drawCard(3)"></td>
+                <td>
+                    <span class="midBuffer"></span>
+                    <div class="card">
+                        <img id="player3Goal2" src="images/goal-mystery.png" />
+                    </div>
+                </td>
+            </tr>
+            <tr class="bufferRow"></tr>
+            <tr id="bottomRow" class="contentRow">
+                <td class="buffer">
+                    <div><b>Event Log</b></div>
+                    <textarea id="log"></textarea>
+                </td>
+                <td class="card">
+                    <img src="" id="player0Goal1" title="Your goal #1">
+                </td>
+                <td class="card">
+                    <img src="" id="player0Goal2" title="Your goal #2">
+                </td>
+                <td class="buffer">
+                    <div><b>My Hoard</b></div>
+                    <textarea id="myHoard"></textarea>
+                </td>
+            </tr>
+        </table>
+        <script type="text/javascript" src="cookie-grab.js"></script>
+    </body>
+</html>
