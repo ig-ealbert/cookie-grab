@@ -42,7 +42,7 @@ const validCardsForGoal = {
 };
 
 const requiredCardCount = {
-    "chocolate-collector": 6,
+    "chocolate-collector": numPlayers * 2,
     "peanut-butter-collector": numPlayers,
     "sugar-collector": numPlayers,
     "unique-collector": 7,
@@ -55,8 +55,8 @@ function createTooltip(name) {
 }
 
 function createDeck() {
-    let deck = [];
-    let available = [];
+    const deck = [];
+    const available = [];
     for (let i = 0; i < cookieTypes.length; i++) {
         for (let j = 0; j < numPlayers; j++) {
             available.push(cookieTypes[i]);
@@ -71,8 +71,8 @@ function createDeck() {
 }
 
 function dealDeck(deck) {
-    let piles = [];
-    let pileSize = deck.length / 4;
+    const piles = [];
+    const pileSize = deck.length / 4;
     for (let pile = 0; pile < 4; pile++) {
         // deal 1/4 of the deck into each pile
         piles.push(deck.slice(pile * pileSize, (pile + 1) * pileSize));
@@ -83,9 +83,9 @@ function dealDeck(deck) {
 function flipTopCardOfPile(pileNumber, pileContents) {
     // get element
     const elementId = `available${pileNumber + 1}`;
-    let element = document.getElementById(elementId);
+    const element = document.getElementById(elementId);
     // check top card of pile
-    let card = pileContents[0];
+    const card = pileContents[0];
     // flip it face-up
     element.innerHTML = `<img src="images/${card}.png" title="${createTooltip(card)}">`;
 }
@@ -98,7 +98,7 @@ function flipTopCardOfAllPiles(piles) {
 
 function replaceTopCardOfPile(pileNumber) {
     const elementId = `available${pileNumber + 1}`;
-    let element = document.getElementById(elementId);
+    const element = document.getElementById(elementId);
     if (deckPiles[pileNumber].length !== 0) {
         let card = deckPiles[pileNumber][0];
         element.innerHTML = `<img src="images/${card}.png" title="${createTooltip(card)}">`;
@@ -128,7 +128,7 @@ function drawCard(pile) {
 }
 
 function createHoards() {
-    let hoards = [];
+    const hoards = [];
     for (let i = 0; i < numPlayers; i++) {
         hoards.push([]);
     }
@@ -136,8 +136,8 @@ function createHoards() {
 }
 
 function assignGoals() {
-    let available = goals.slice().concat(goals.slice());
-    let theGoals = [];
+    const available = goals.slice().concat(goals.slice());
+    const theGoals = [];
     for (let i = 0; i < numPlayers; i++) {
         theGoals.push(chooseTwoDifferentGoals(available));
     }
@@ -170,7 +170,7 @@ function renderGoals(goals, playerNumber) {
 }
 
 function areAllPilesEmpty() {
-    for (let pile of deckPiles) {
+    for (const pile of deckPiles) {
         if (pile.length !== 0) {
             return false;
         }
@@ -181,7 +181,7 @@ function areAllPilesEmpty() {
 function scoreGame() {
     const eventLog = document.getElementById("log");
     eventLog.innerHTML += `Game over!\n`;
-    let scores = [];
+    const scores = [];
     for (let i = 0; i < numPlayers; i++) {
         scores.push(scorePlayer(i));
         eventLog.innerHTML += `Player ${i} scored ${scores[i]} points!\n`;
@@ -211,11 +211,11 @@ function evaluateGoal(goal, cards) {
         return count >= requiredCardCount[goal];
     }
     else if (goal === "unique-collector") {
-        let uniqueSet = new Set(cards)
+        const uniqueSet = new Set(cards)
         return uniqueSet.size >= requiredCardCount[goal];
     }
     else if (goal === "same-collector") {
-        let validSets = [];
+        const validSets = [];
         for (let card of cards) {
             let first = cards.indexOf(card);
             let last = cards.lastIndexOf(card);
