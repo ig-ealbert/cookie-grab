@@ -1,0 +1,35 @@
+.container {
+  font-size: large;
+}
+
+.contentRow {
+  text-align: center;
+}
+
+.buffer {
+  width: 40%;
+}
+
+.midBuffer {
+  width: 25%;
+}
+
+.bufferRow {
+  height: 20px;
+}
+
+.card {
+  width: 10%;
+  display: contents;
+}
+
+.card img {
+  width: 128px;
+  height: 128px;
+  border: 1px solid black;
+}
+
+.textbox {
+  width: 90%;
+  height: 110px;
+}
