@@ -47,6 +47,15 @@ export class Game {
     this.eventLog.push(`Player ${player} takes ${card} from pile ${pile}`);
   }
 
+  playerChooseMove(player: number) {
+    const allCards = this.piles.map((pile) => pile.top());
+    const cards = allCards.filter((card) => card !== "");
+    if (player === 0) {
+      throw new Error ("Player 0 is human and can make their own decisions!");
+    }
+    return this.players[player].chooseBestCard(cards);
+  }
+
   getPlayerGoals(player: number) {
     return this.players[player].getGoals();
   }

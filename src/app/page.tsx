@@ -2,16 +2,22 @@
 
 import { useState, useEffect } from "react";
 import { cookies } from "@/lib/cookies";
+import { TURN_DELAY } from "@/lib/constants";
 import { goals } from "@/lib/goals";
 import styles from "./page.module.css";
 
 export default function Home() {
   const [playerTurn, setPlayerTurn] = useState<number>(0);
+  useEffect(() => {
+    if (playerTurn !== 0) {
+      handleAIMove(playerTurn);
+    }
+  }, [playerTurn]);
 
   const [topCards, setTopCards] = useState<string[]>([]);
   useEffect(() => {
     getTopCards();
-  }, [playerTurn]);
+  }, []);
 
   const [allGoals, setAllGoals] = useState<string[][]>([]);
   useEffect(() => {    
@@ -23,6 +29,14 @@ export default function Home() {
   const [myHoard, setMyHoard] = useState<string[]>([]);
 
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
+
+  function updateEventLog(newLog: string[]) {
+    setEventLog(newLog);
+    const log = document.getElementById("log");
+    if (log) {
+      log.scrollTop = log.scrollHeight;
+    }
+  }
 
   function checkForEndGame(cards: string[]) {
     if (!cards[0] && !cards[1] &&
@@ -88,10 +102,30 @@ export default function Home() {
     }
   }
 
+  function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
   async function drawCard(pile: number) {
+    await sendMoveToServer(pile, 0);
+  }
+
+  async function handleAIMove(player: number) {
+    if (isGameOver) {
+      return;
+    }
+    const allTopCards = await getTopCards();
+    await sleep(TURN_DELAY);
+    let response = await fetch(`/api/choice/${player}`);
+    let choice = await response.text();
+    let whichPile = allTopCards.indexOf(choice);
+    await sendMoveToServer(whichPile, player);
+  }
+
+  async function sendMoveToServer(pile: number, player: number) {
     // send move (pile + player) to server
     const body = {
-      player: playerTurn,
+      player,
       pile,
     }
     const didTake = await fetch("/api/take-card", {
@@ -102,14 +136,15 @@ export default function Home() {
       body: JSON.stringify(body),
     });
     if (didTake) {
-      const newEvent = `Player ${playerTurn} took ${topCards[pile]} from pile ${pile}`;
+      const newEvent = `Player ${player} took ${topCards[pile]} from pile ${pile}`;
       const eventLogCopy = eventLog.slice();
       eventLogCopy.push(newEvent);
-      setEventLog(eventLogCopy)
-      if (playerTurn === 0) {
+      updateEventLog(eventLogCopy);
+      if (player === 0) {
         getMyHoard();
       }
-      setPlayerTurn((playerTurn + 1) % 4);
+      await getTopCards();
+      setPlayerTurn((player + 1) % 4);
     }
   }
 
@@ -125,6 +160,10 @@ export default function Home() {
     const response = await fetch("/api/hoard/0");
     const hoard = await response.json();
     setMyHoard(hoard);
+    const area = document.getElementById("myHoard");
+    if (area) {
+      area.scrollTop = area.scrollHeight;
+    }
     return hoard;
   }
 
@@ -137,7 +176,7 @@ export default function Home() {
       eventLogCopy.push(`Player ${i} scored ${scores[i]} points.`);
     }
     eventLogCopy.push(calculateWinners(scores));
-    setEventLog(eventLogCopy)
+    updateEventLog(eventLogCopy)
   }
 
   function calculateWinners(scores: number[]) {
@@ -194,12 +233,12 @@ export default function Home() {
           <span className={styles.midBuffer}></span>
         </td>
         <td className={styles.card} id="available1" onClick={() => drawCard(0)}>
-          <button disabled={!topCards[0]}>
+          <button disabled={!topCards[0] || playerTurn !== 0}>
             <img src={getCookieImage(topCards[0])} title={getCookieTooltip(topCards[0])} />
           </button>
         </td>
         <td className={styles.card} id="available2" onClick={() => drawCard(1)}>
-          <button disabled={!topCards[1]}>
+          <button disabled={!topCards[1] || playerTurn !== 0}>
             <img src={getCookieImage(topCards[1])} title={getCookieTooltip(topCards[1])} />
           </button>
         </td>
@@ -218,12 +257,12 @@ export default function Home() {
           <span className={styles.midBuffer}></span>
         </td>
         <td className={styles.card} id="available3" onClick={() => drawCard(2)}>
-          <button disabled={!topCards[2]}>
+          <button disabled={!topCards[2] || playerTurn !== 0}>
             <img src={getCookieImage(topCards[2])} title={getCookieTooltip(topCards[2])} />
           </button>
         </td>
         <td className={styles.card} id="available4" onClick={() => drawCard(3)}>
-          <button disabled={!topCards[3]}>
+          <button disabled={!topCards[3] || playerTurn !== 0}>
             <img src={getCookieImage(topCards[3])} title={getCookieTooltip(topCards[3])} />
           </button>
         </td>

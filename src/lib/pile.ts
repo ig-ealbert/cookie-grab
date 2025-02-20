@@ -12,6 +12,9 @@ export class Pile {
   }
 
   top() {
+    if (this.cardsInPile.length < 1) {
+      return "";
+    }
     return this.cardsInPile[this.cardsInPile.length - 1];
   }
 

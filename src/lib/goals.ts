@@ -84,3 +84,43 @@ function chooseTwoDifferentGoals(available: string[]) {
   available.splice(choice2, 1);
   return [goal1, goal2];
 }
+
+export function findMatchingCards(goal: string, available: string[]) {
+  const matchingGoals = ["chocolate-collector", "sugar-collector", "peanut-butter-collector"];
+  if (matchingGoals.includes(goal)) {
+    const didMatch = available.map((card) => goals[goal].matches?.includes(card));
+    const matches = [];
+    for (let i = 0; i < didMatch.length; i++) {
+      if (didMatch[i]) {
+        matches.push(available[i]);
+      }
+    }
+    return matches;
+  }
+  return [];
+}
+
+export function findUniqueCard(available: string[], hoard: string[]) {
+  const uniques: string[] = [];
+  for (const card of available) {
+    if (!hoard.includes(card) && !uniques.includes(card)) {
+      uniques.push(card);
+    }
+  }
+  return uniques;
+}
+
+export function findSets(available: string[], hoard: string[]) {
+  if (!hoard.length) {
+    return [];
+  }
+  const sets: string[] = [];
+  for (const card of available) {
+    const firstMatch = hoard.indexOf(card);
+    const secondMatch = hoard.lastIndexOf(card);
+    if (firstMatch !== -1 && secondMatch === firstMatch) {
+      sets.push(card);
+    }
+  }
+  return sets;
+}
