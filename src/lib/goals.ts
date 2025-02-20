@@ -6,8 +6,8 @@ export const goals: Record<string, GoalInfo> = {
     image: "images/goal-chocolate-collector.png",
     matches: ["chocolate-chip", "chocolate-fudge",
               "peanut-butter-chocolate", "creme-sandwich"],
-    requiredCount: NUM_PLAYERS * 2,
-    tooltip: "Chocolate Collector (2 * number of players)",
+    requiredCount: 6,
+    tooltip: "Chocolate Collector (6)",
   },
   "peanut-butter-collector": {
     image: "images/goal-peanut-butter-collector.png",
@@ -23,8 +23,8 @@ export const goals: Record<string, GoalInfo> = {
   },
   "unique-collector": {
     image: "images/goal-unique-collector.png",
-    requiredCount: 7,
-    tooltip: "Unique Collector (7)",
+    requiredCount: 6,
+    tooltip: "Unique Collector (6)",
   },
   "same-collector": {
     image: "images/goal-same-collector.png",
