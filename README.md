@@ -38,7 +38,7 @@ The following goals are available in the game.
 | Chocolate Collector     | Collect 6 chocolate cookies                                  | ![gcc](./public/images/goal-chocolate-collector.png)      |
 | Peanut Butter Collector | Collect peanut butter cookies equal to the number of players | ![gpbc](./public/images/goal-peanut-butter-collector.png) |
 | Same Collector          | Collect 3 pairs of cookies                                   | ![gsc](./public/images/goal-same-collector.png)           |
-| Sugar Collector         | Collect sugar cookies equal to the number of players         | ![gsuc](images/goal-sugar-collector.png)                  |
+| Sugar Collector         | Collect sugar cookies equal to the number of players         | ![gsuc](./public/images/goal-sugar-collector.png)         |
 | Unique Collector        | Collect 6 unique cookies                                     | ![guc](./public/images/goal-unique-collector.png)         |
 
 The following types of cookies qualify for the collector goals:
