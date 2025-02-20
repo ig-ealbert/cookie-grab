@@ -35,10 +35,10 @@ export class Player {
       goodPicks = goodPicks.concat(matches);
     }
 
-    if ("unique-collector" === activeGoals[0] || "unique-collector" === activeGoals[1]) {
+    if (activeGoals.includes("unique-collector")) {
       goodPicks = goodPicks.concat(findUniqueCard(cards, this.hoard));
     }
-    if ("same-collector" === activeGoals[0] || "same-collector" === activeGoals[1]) {
+    if (activeGoals.includes("same-collector")) {
       goodPicks = goodPicks.concat(findSets(cards, this.hoard));
     }
     if (!goodPicks.length) {
@@ -46,22 +46,14 @@ export class Player {
       return cards[randomNumber];
     }
     else {
-      const randomNumber = Math.floor(Math.random() * goodPicks.length);
-      return goodPicks[randomNumber];
+      const choices = Array.from(new Set(goodPicks)); // Remove duplicates
+      const randomNumber = Math.floor(Math.random() * choices.length);
+      return choices[randomNumber];
     }
   }
 
   getActiveGoals() {
-    const activeGoals: string[] = [];
-    const isActive1 = !didAchieveGoal(this.goals[0], this.hoard);
-    const isActive2 = !didAchieveGoal(this.goals[1], this.hoard);
-    if (isActive1) {
-      activeGoals.push(this.goals[0]);
-    }
-    if (isActive2) {
-      activeGoals.push(this.goals[1]);
-    }
-    return activeGoals;
+    return this.goals.filter((goal) => !didAchieveGoal(goal, this.hoard));
   }
 
   getGoals() {

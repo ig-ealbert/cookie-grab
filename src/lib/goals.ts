@@ -35,12 +35,7 @@ export const goals: Record<string, GoalInfo> = {
 
 export function didAchieveGoal(goal: string, cards: string[]) {
   if (["chocolate-collector", "peanut-butter-collector", "sugar-collector"].includes(goal)) {
-    let count = 0;
-    for (let card of cards) {
-      if(goals[goal]?.matches?.includes(card)) {
-        count++;
-      }
-    }
+    const count = cards.filter((card) => goals[goal]?.matches?.includes(card)).length;
     return count >= goals[goal].requiredCount;
   }
   else if (goal === "unique-collector") {
@@ -48,14 +43,11 @@ export function didAchieveGoal(goal: string, cards: string[]) {
     return uniqueSet.size >= goals[goal].requiredCount;
   }
   else if (goal === "same-collector") {
-    const validSets: string[] = [];
-    for (const card of cards) {
-      const first = cards.indexOf(card);
-      const last = cards.lastIndexOf(card);
-      if (first !== last && !validSets.includes(card)) {
-        validSets.push(card);
-      }
+    function count(cardToCheck: string) {
+      return cards.filter((card) => card === cardToCheck).length;
     }
+    const moreThanTwo = cards.filter((card) => count(card) >= 2);
+    const validSets = Array.from(new Set(moreThanTwo));
     return validSets.length >= goals[goal].requiredCount;
   }
   return false;
@@ -88,39 +80,21 @@ function chooseTwoDifferentGoals(available: string[]) {
 export function findMatchingCards(goal: string, available: string[]) {
   const matchingGoals = ["chocolate-collector", "sugar-collector", "peanut-butter-collector"];
   if (matchingGoals.includes(goal)) {
-    const didMatch = available.map((card) => goals[goal].matches?.includes(card));
-    const matches = [];
-    for (let i = 0; i < didMatch.length; i++) {
-      if (didMatch[i]) {
-        matches.push(available[i]);
-      }
-    }
-    return matches;
+    return available.filter((card) => goals[goal].matches?.includes(card));
   }
   return [];
 }
 
 export function findUniqueCard(available: string[], hoard: string[]) {
-  const uniques: string[] = [];
-  for (const card of available) {
-    if (!hoard.includes(card) && !uniques.includes(card)) {
-      uniques.push(card);
-    }
-  }
-  return uniques;
+  return available.filter((card) => !hoard.includes(card));
 }
 
 export function findSets(available: string[], hoard: string[]) {
   if (!hoard.length) {
     return [];
   }
-  const sets: string[] = [];
-  for (const card of available) {
-    const firstMatch = hoard.indexOf(card);
-    const secondMatch = hoard.lastIndexOf(card);
-    if (firstMatch !== -1 && secondMatch === firstMatch) {
-      sets.push(card);
-    }
+  function count(cardToCheck: string) {
+    return hoard.filter((card) => card === cardToCheck).length;
   }
-  return sets;
+  return available.filter((card) => count(card) === 1);
 }

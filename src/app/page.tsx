@@ -25,13 +25,13 @@ export default function Home() {
   }, []);
 
   const [eventLog, setEventLog] = useState<string[]>([]);
+  useEffect(() => scrollToBottomOfLog(), [eventLog]);
 
   const [myHoard, setMyHoard] = useState<string[]>([]);
 
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
-  function updateEventLog(newLog: string[]) {
-    setEventLog(newLog);
+  function scrollToBottomOfLog() {
     const log = document.getElementById("log");
     if (log) {
       log.scrollTop = log.scrollHeight;
@@ -123,7 +123,6 @@ export default function Home() {
   }
 
   async function sendMoveToServer(pile: number, player: number) {
-    // send move (pile + player) to server
     const body = {
       player,
       pile,
@@ -136,10 +135,11 @@ export default function Home() {
       body: JSON.stringify(body),
     });
     if (didTake) {
-      const newEvent = `Player ${player} took ${topCards[pile]} from pile ${pile}`;
+      const cardName = getCookieTooltip(topCards[pile]);
+      const newEvent = `Player ${player} took ${cardName} from pile ${pile}`;
       const eventLogCopy = eventLog.slice();
       eventLogCopy.push(newEvent);
-      updateEventLog(eventLogCopy);
+      setEventLog(eventLogCopy);
       if (player === 0) {
         getMyHoard();
       }
@@ -160,10 +160,6 @@ export default function Home() {
     const response = await fetch("/api/hoard/0");
     const hoard = await response.json();
     setMyHoard(hoard);
-    const area = document.getElementById("myHoard");
-    if (area) {
-      area.scrollTop = area.scrollHeight;
-    }
     return hoard;
   }
 
@@ -176,7 +172,7 @@ export default function Home() {
       eventLogCopy.push(`Player ${i} scored ${scores[i]} points.`);
     }
     eventLogCopy.push(calculateWinners(scores));
-    updateEventLog(eventLogCopy)
+    setEventLog(eventLogCopy)
   }
 
   function calculateWinners(scores: number[]) {
@@ -206,7 +202,7 @@ export default function Home() {
   function printMyHoard() {
     let text = "";
     for (const card of myHoard) {
-      text += `${card}\n`;
+      text += `${getCookieTooltip(card)}\n`;
     }
     return text;
   }
