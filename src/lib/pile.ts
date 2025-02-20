@@ -1,5 +1,3 @@
-import { cookies } from "./cookies";
-
 export class Pile {
   private cardsInPile: string[];
 
