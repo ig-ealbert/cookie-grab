@@ -4,7 +4,7 @@
 
 This is a prototype for a card game.
 
-Someone brought you cookies, and you and your friends all have specific tastes. The goal is to get the types of cookies that you want!
+Someone brought you cookies, and you have to share with your friends. Everyone has their favorite cookies. The goal is to get the types of cookies that you want!
 
 The game can be played either cooperatively, or competitively. This prototype assumes the competitive play mode.
 
@@ -65,7 +65,7 @@ Starting with the player who most recently ate a cookie in real life (please do 
 
 The game ends when each player has 10 cookies and all piles are depleted.
 
-At this point, the goals are turned face up (if in competitive mode). Each player scores 5 points for each completed goal. In cooperative mode, the combined score is calculated and play groups can benchmark against their best score!
+At this point, the goals are turned face up (if in competitive mode). Each player scores 5 points for each completed goal based on the cards in their hoard. In cooperative mode, the combined score is calculated and play groups can benchmark against their best score!
 
 ## Run the Game Using Next.js
 
@@ -82,3 +82,5 @@ npm run dev
 ```
 
 Navigate to `localhost:3000` in your favorite web browser.
+
+To start a new game, kill the server process (`Ctrl` + `C`) and restart it with `npm run dev`.
