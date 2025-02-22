@@ -220,6 +220,12 @@ export default function Home() {
   return (
     <table id="outer" className={styles.container}>
       <tbody>
+      <tr id="topLabelRow">
+        <td className={styles.buffer}></td>
+        <td className={styles.playerLabel}>Player 2</td>
+        <td></td>
+        <td className={styles.buffer}></td>
+      </tr>
       <tr id="topRow" className={styles.contentRow}>
         <td className={styles.buffer}></td>
         <td className={styles.card}>
@@ -230,7 +236,12 @@ export default function Home() {
         </td>
         <td className={styles.buffer}></td>
       </tr>
-      <tr className={styles.bufferRow}></tr>
+      <tr id="midLabelRow" className={styles.bufferRow}>
+        <td className={styles.playerLabel}>Player 1</td>
+        <td></td>
+        <td className={styles.playerLabel}>Player 3</td>
+        <td></td>
+      </tr>
       <tr id="midTopRow" className={styles.contentRow}>
         <td>
           <div className={styles.card}>
@@ -307,6 +318,12 @@ export default function Home() {
           <textarea readOnly id="myHoard" className={styles.textbox}
                     value={printMyHoard()}></textarea>
         </td>
+      </tr>
+      <tr id="bottomLabelRow">
+        <td className={styles.buffer}></td>
+        <td className={styles.playerLabel}>Player 0</td>
+        <td></td>
+        <td className={styles.buffer}></td>
       </tr>
       </tbody>
     </table>
