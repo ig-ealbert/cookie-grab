@@ -29,6 +29,16 @@ export default function Home() {
 
   const [myHoard, setMyHoard] = useState<string[]>([]);
 
+  const [pileCounts, setPileCounts] = useState<number[]>([10, 10, 10, 10]);
+  useEffect(() => {
+    async function updatePileCounts() {
+      const response = await fetch("/api/pile-counts");
+      const counts = await response.json();
+      setPileCounts(counts);
+    }
+    updatePileCounts()
+  }, [playerTurn]);
+
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
 
   function scrollToBottomOfLog() {
@@ -230,12 +240,14 @@ export default function Home() {
         </td>
         <td className={styles.card} id="available1" onClick={() => drawCard(0)}>
           <button disabled={!topCards[0] || playerTurn !== 0}>
-            <img src={getCookieImage(topCards[0])} title={getCookieTooltip(topCards[0])} />
+            <img src={getCookieImage(topCards[0])}
+             title={`${getCookieTooltip(topCards[0])}\nCards in pile: ${pileCounts[0]}`} />
           </button>
         </td>
         <td className={styles.card} id="available2" onClick={() => drawCard(1)}>
           <button disabled={!topCards[1] || playerTurn !== 0}>
-            <img src={getCookieImage(topCards[1])} title={getCookieTooltip(topCards[1])} />
+            <img src={getCookieImage(topCards[1])}
+             title={`${getCookieTooltip(topCards[1])}\nCards in pile: ${pileCounts[1]}`} />
           </button>
         </td>
         <td>
@@ -254,12 +266,14 @@ export default function Home() {
         </td>
         <td className={styles.card} id="available3" onClick={() => drawCard(2)}>
           <button disabled={!topCards[2] || playerTurn !== 0}>
-            <img src={getCookieImage(topCards[2])} title={getCookieTooltip(topCards[2])} />
+            <img src={getCookieImage(topCards[2])}
+             title={`${getCookieTooltip(topCards[2])}\nCards in pile: ${pileCounts[2]}`} />
           </button>
         </td>
         <td className={styles.card} id="available4" onClick={() => drawCard(3)}>
           <button disabled={!topCards[3] || playerTurn !== 0}>
-            <img src={getCookieImage(topCards[3])} title={getCookieTooltip(topCards[3])} />
+            <img src={getCookieImage(topCards[3])}
+             title={`${getCookieTooltip(topCards[3])}\nCards in pile: ${pileCounts[3]}`} />
           </button>
         </td>
         <td>

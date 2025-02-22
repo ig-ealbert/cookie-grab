@@ -29,6 +29,10 @@ export class Game {
     return this.piles.map((pile: Pile) => pile.top());
   }
 
+  getPileCounts() {
+    return this.piles.map((pile: Pile) => pile.count());
+  }
+
   areAllPilesEmpty() {
     for (const pile of this.piles) {
       if (pile.count() !== 0) {
